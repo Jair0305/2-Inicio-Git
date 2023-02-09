@@ -1,4 +1,4 @@
-let currentMusic = 0
+document.body.addEventListener('touchmove', function(e){ e.preventDefault(); });
 
 const music = document.querySelector('#audio')
 const seekBar = document.querySelector('.seek-bar')
@@ -12,9 +12,7 @@ const forwardBtn = document.querySelector('.forward-btn')
 const backwardBtn = document.querySelector('.backward-btn')
 //console.log('seekBar', seekBar)
 
-playBtn.addEventListener
-('click', () =>
-{
+playBtn.addEventListener('click', () =>{
     if(playBtn.className.includes('pause'))
     {
         music.play()
@@ -26,8 +24,7 @@ playBtn.addEventListener
     disk.classList.toggle('play')
 })
 
-const setMusic = (i) =>
-{
+const setMusic = (i) => {
     seekBar.value = 0
     let song = songs [i]
     currentMusic = i
@@ -37,44 +34,38 @@ const setMusic = (i) =>
     disk.getElementsByClassName.backgroundImage = `url('${ song.cover }')`
     currentTime.innerHTML = '00:00'
 
-    setTimeout
-    (
-        () => 
-        {
+    setTimeout(() => {
             seekBar.max = music.duration
+            console.log('duration', music.duration)
             musicDuration = innerHTML = formatTime(music.duration)
-        }, 700
-    )
+        }, 700)
 }
-
 setMusic(0)
 
-const formatTime = (time) =>
-{
-    let min = Math.floor(time/60)
-    if(min < 10)
+const formatTime = (time) => {
+    let minutes = Math.floor(time/60)
+    if(minutes < 10)
     {
-        min = `0${ min }`
+        minutes = `0${ minutes }`
     }
-    let sec = Math.floor(time % 60)
-    if(sec < 10)
+    let seconds = Math.floor(time % 60)
+    if(seconds < 10)
     {
-        sec = `0${ sec }`
+        seconds = `0${ seconds }`
     }
-    return `${ min } : ${ sec }`
+    return `${ minutes } : ${ seconds }`
 }
 
 setInterval(() => {
         seekBar.value = music.currentTime
         currentTime.innerHTML = formatTime(music.currentTime)
-        if(Math.floor(music.currentTime) === Math.floor(seekBar.max))
+        if(Math.floor(music.currentTime === Math.floor(seekBar.max)))
         {
             forwardBtn.click()
         }
-}, 1000
-)
+}, 1000)
 
-forwardBtn.addEventListener('click', () =>{
+forwardBtn.addEventListener('click', () => {
         if(currentMusic >= songs.length - 1)
         {
             currentMusic = 0
@@ -85,3 +76,21 @@ forwardBtn.addEventListener('click', () =>{
         setMusic(currentMusic)
         playMusic()
 })
+
+backwardBtn.addEventListener('click', () => {
+    if(currentMusic <= 0)
+    {
+        currentMusic = songs.length - 1
+    }else
+    {
+        currentMusic--
+    }
+    setMusic(currentMusic)
+    playMusic()
+})
+
+const playMusic = () => {
+    music.play()
+    playBtn.classList.remove('pause')
+    disk.classList.add('play')
+}

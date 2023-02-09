@@ -1,0 +1,2 @@
+147730-practica2.netlify.app
+https://github.com/Jair0305/2-Inicio-Git.git
